@@ -1,0 +1,99 @@
+.editor-wrap {
+  width: 100%;
+  height: 100%;
+  .editor-left,
+  .editor-right {
+    position: absolute;
+    width: 260px;
+    // background: #ff0000;
+    top: 0;
+    bottom: 0;
+  }
+
+  .editor-left {
+    left: 0;
+
+    &-item {
+      width: 250px;
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      padding: 20px;
+      box-sizing: border-box;
+      cursor: pointer;
+      user-select: none;
+      min-height: 100px;
+      position: relative;
+
+      > span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #1890ff;
+        color: #fff;
+        padding: 4px;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: #ccc;
+        opacity: 0.2;
+      }
+    }
+  }
+  .editor-right {
+    right: 0;
+  }
+
+  .editor-top {
+    position: absolute;
+    right: 270px;
+    left: 270px;
+    height: 80px;
+    background: #1890ff;
+  }
+
+  .editor-container {
+    padding: 80px 260px 0;
+    height: 100%;
+    box-sizing: border-box;
+
+    &-canvas {
+      overflow: scroll;
+      height: 100%;
+
+      &_content {
+        margin: 20px auto;
+        background: #ffff00;
+        position: relative;
+      }
+    }
+  }
+}
+
+.editor-block-wrap {
+  position: absolute;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #ccc;
+    opacity: 0.2;
+  }
+}
+
+.editor-block-focus {
+  &::after {
+    border: 2px dashed #ff0000;
+  }
+}
