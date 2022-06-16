@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3469308 */
+  src: url("iconfont.woff2?t=1655361259600") format("woff2"),
+    url("iconfont.woff?t=1655361259600") format("woff"),
+    url("iconfont.ttf?t=1655361259600") format("truetype");
+}
+
+/* 匹配以 icon- 开头的所有类名 */
+[class^="icon-"] {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete:before {
+  content: "\e645";
+}
+
+.icon-save:before {
+  content: "\ec09";
+}
+
+.icon-redo:before {
+  content: "\e65d";
+}
+
+.icon-ctrlZ:before {
+  content: "\e617";
+}

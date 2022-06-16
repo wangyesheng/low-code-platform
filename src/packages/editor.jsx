@@ -3,6 +3,9 @@ import { computed, defineComponent, inject, ref } from "vue";
 
 import EditorBlock from "./editor-block";
 import { useMenuDragger } from "./useMenuDragger";
+import { useFocus } from "./useFocus";
+import { useBlockDragger } from "./useBlockDragger";
+import { useCommands } from "./useCommands";
 import "./editor.scss";
 
 export default defineComponent({
@@ -40,25 +43,56 @@ export default defineComponent({
     const { dragstart, dragend } = useMenuDragger(settings, containerRef);
 
     // 2、实现获取焦点
-
-    // 3、实现拖拽多个元素功能
-
-    const onBlockMousedown = (e, block) => {
-      e.preventDefault();
-      e.stopPropagation();
-      // block 上定义一个 focus 属性，获取焦点之后就将 focus 置为 true
-      if (!block.focus) {
-        // 清空其他 block 的 focus
-        clearBlockFocus();
-        block.focus = true;
-      } else {
-        block.focus = false;
+    const {
+      focusState,
+      lastSelectedBlock,
+      blockMousedown,
+      containerMousedown,
+    } = useFocus(
+      settings,
+      // 2.1、可能选中一个之后就直接开始拖拽操作了
+      (e) => {
+        blockDrag(e);
       }
-    };
+    );
 
-    const clearBlockFocus = () => {
-      settings.value.blocks.forEach((x) => (x.focus = false));
-    };
+    const { blockDrag, markLine } = useBlockDragger(
+      focusState,
+      lastSelectedBlock,
+      settings
+    );
+
+    const { state } = useCommands();
+    const buttons = [
+      {
+        label: "撤销",
+        value: "ctrlZ",
+        icon: "icon-ctrlZ",
+        handler: () => {
+          state.commandsMap.ctrlZ();
+        },
+      },
+      {
+        label: "重做",
+        value: "redo",
+        icon: "icon-redo",
+        handler: () => {
+          state.commandsMap.redo();
+        },
+      },
+      // {
+      //   label: "删除",
+      //   value: "delete",
+      //   icon: "icon-delete",
+      //   handler: () => console.log("delete"),
+      // },
+      // {
+      //   label: "保存",
+      //   value: "save",
+      //   icon: "icon-save",
+      //   handler: () => console.log("save"),
+      // },
+    ];
 
     return () => (
       <div class="editor-wrap">
@@ -75,7 +109,20 @@ export default defineComponent({
             </div>
           ))}
         </div>
-        <div class="editor-top">菜单栏</div>
+        <div class="editor-top">
+          {buttons.map((btn) => {
+            return (
+              <div
+                class="editor-top-btn-wrap"
+                onClick={btn.handler}
+                key={btn.key}
+              >
+                <i class={btn.icon}></i>
+                <span>{btn.label}</span>
+              </div>
+            );
+          })}
+        </div>
         <div class="editor-right">物料属性控制栏</div>
         <div class="editor-container">
           {/* 负责产生滚动条 */}
@@ -85,14 +132,24 @@ export default defineComponent({
               class="editor-container-canvas_content"
               style={containerStyles.value}
               ref={containerRef}
+              onMousedown={containerMousedown}
             >
-              {settings.value.blocks.map((block) => (
+              {settings.value.blocks.map((block, i) => (
                 <editor-block
+                  key={block.key}
                   block={block}
                   class={block.focus ? "editor-block-focus" : ""}
-                  onMousedown={(e) => onBlockMousedown(e, block)}
+                  onMousedown={(e) => blockMousedown(e, block, i)}
                 />
               ))}
+
+              {markLine.x !== null && (
+                <div class="line-x" style={{ left: markLine.x + "px" }} />
+              )}
+
+              {markLine.y !== null && (
+                <div class="line-y" style={{ top: markLine.y + "px" }} />
+              )}
             </div>
           </div>
         </div>

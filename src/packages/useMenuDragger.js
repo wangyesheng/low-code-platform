@@ -1,3 +1,5 @@
+import { events } from "./event";
+
 export function useMenuDragger(settings, domRef) {
   let currentComponent = null;
 
@@ -38,6 +40,7 @@ export function useMenuDragger(settings, domRef) {
     domRef.value.addEventListener("dragleave", dragleave);
     domRef.value.addEventListener("drop", drop);
     currentComponent = component;
+    events.emit("start"); // 发布start
   };
 
   const dragend = (e, component) => {
@@ -45,6 +48,7 @@ export function useMenuDragger(settings, domRef) {
     domRef.value.removeEventListener("dragover", dragover);
     domRef.value.removeEventListener("dragleave", dragleave);
     domRef.value.removeEventListener("drop", drop);
+    events.emit("end"); // 发布end
   };
 
   return {

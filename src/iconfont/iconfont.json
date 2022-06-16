@@ -1,0 +1,37 @@
+{
+  "id": "3469308",
+  "name": "low-code-platform",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "低代码平台 iconfont 项目图标",
+  "glyphs": [
+    {
+      "icon_id": "2892818",
+      "name": "删除",
+      "font_class": "delete",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "4686546",
+      "name": "保存",
+      "font_class": "save",
+      "unicode": "ec09",
+      "unicode_decimal": 60425
+    },
+    {
+      "icon_id": "23981160",
+      "name": "重做",
+      "font_class": "redo",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "17833630",
+      "name": "撤销",
+      "font_class": "ctrlZ",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    }
+  ]
+}
