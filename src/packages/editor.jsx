@@ -62,7 +62,7 @@ export default defineComponent({
       settings
     );
 
-    const { state } = useCommands();
+    const { state } = useCommands(settings);
     const buttons = [
       {
         label: "撤销",
