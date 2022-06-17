@@ -4,6 +4,7 @@ export function useBlockDragger(focusState, lastSelectedBlock, settings) {
   let dragState = {
     startClientX: 0,
     startClientY: 0,
+    isDragging: false, // 是否正在拖拽
   };
 
   let markLine = reactive({
@@ -13,6 +14,10 @@ export function useBlockDragger(focusState, lastSelectedBlock, settings) {
 
   const mousemove = (e) => {
     let { clientX: moveX, clientY: moveY } = e;
+
+    if (!dragState.isDragging) {
+      dragState.isDragging = true;
+    }
 
     // 计算当前拖拽元素最新的 left 和 top 值，去 lineMap 找，找到就显示线
     // 鼠标移动后 - 鼠标移动前 + left;
@@ -72,6 +77,7 @@ export function useBlockDragger(focusState, lastSelectedBlock, settings) {
     dragState = {
       startClientX: e.clientX, // 相较于浏览器的距离
       startClientY: e.clientY,
+      isDragging: false,
       startPosition: focusState.value.focus.map(({ top, left }) => ({
         top,
         left,

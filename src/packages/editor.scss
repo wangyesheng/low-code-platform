@@ -69,12 +69,16 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: #ccc;
+      background: rgba(0, 0, 0, 0.5);
       user-select: none;
       cursor: pointer;
       color: #fff;
       &:not(:first-child) {
         margin-left: 3px;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.6);
       }
     }
   }

@@ -73,7 +73,7 @@ export default defineComponent({
         },
       },
       {
-        label: "重做",
+        label: "复原",
         value: "redo",
         icon: "icon-redo",
         handler: () => {
