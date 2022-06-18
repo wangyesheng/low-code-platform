@@ -6,6 +6,7 @@ import { useMenuDragger } from "./useMenuDragger";
 import { useFocus } from "./useFocus";
 import { useBlockDragger } from "./useBlockDragger";
 import { useCommands } from "./useCommands";
+import { useButtons } from "./useButtons";
 import "./editor.scss";
 
 export default defineComponent({
@@ -62,49 +63,9 @@ export default defineComponent({
       settings
     );
 
-    const { state } = useCommands(settings);
-    const buttons = [
-      {
-        label: "撤销",
-        value: "ctrlZ",
-        icon: "icon-undo",
-        handler: () => {
-          state.commandsMap.ctrlZ();
-        },
-      },
-      {
-        label: "复原",
-        value: "redo",
-        icon: "icon-redo",
-        handler: () => {
-          state.commandsMap.redo();
-        },
-      },
-      {
-        label: "删除",
-        value: "delete",
-        icon: "icon-delete",
-        handler: () => console.log("delete"),
-      },
-      {
-        label: "导入",
-        value: "import",
-        icon: "icon-import",
-        handler: () => console.log("import"),
-      },
-      {
-        label: "导出",
-        value: "export",
-        icon: "icon-export",
-        handler: () => console.log("export"),
-      },
-      {
-        label: "保存",
-        value: "save",
-        icon: "icon-save",
-        handler: () => console.log("save"),
-      },
-    ];
+    const { state } = useCommands(settings, focusState);
+
+    const { buttons } = useButtons(state, settings);
 
     return () => (
       <div class="editor-wrap">

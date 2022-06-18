@@ -16,7 +16,7 @@ import { events } from "./event";
  * @param {*} settings 
  * @returns 
  */
-export function useCommands(settings) {
+export function useCommands(settings, focusState) {
   const state = {
     current: -1, // 前进后退的索引值
     historyQueue: [], // 所有操作指令的历史记录
@@ -27,8 +27,8 @@ export function useCommands(settings) {
 
   const register = (command) => {
     state.commands.push(command);
-    state.commandsMap[command.name] = () => {
-      const { go, back } = command.execute();
+    state.commandsMap[command.name] = (args) => {
+      const { go, back } = command.execute(args);
       go();
       if (!command.wantedInQueue) return;
       if (state.historyQueue.length > 0) {
@@ -63,6 +63,59 @@ export function useCommands(settings) {
           const layer = state.historyQueue[state.current--];
           layer && layer.back && layer.back();
         },
+      };
+    },
+  });
+
+  register({
+    name: "updateContainer", // 更新整个容器内部的 blocks
+    wantedInQueue: true,
+    execute(newValue) {
+      let before = settings.value;
+      let after = newValue;
+      return {
+        go() {
+          settings.value = after;
+        },
+        back() {
+          settings.value = before;
+        },
+      };
+    },
+  });
+
+  register({
+    name: "placeTop",
+    wantedInQueue: true,
+    execute() {
+      let before = deepcopy(settings.value.blocks);
+      const after = (() => {
+        const { focus, unfocus } = focusState.value;
+        // Infinity => 无穷大
+        const maxZIndex = unfocus.reduce((prev, current) => {
+          return Math.max(prev, current.zIndex);
+        }, -Infinity);
+        focus.forEach((x) => (x.zIndex = maxZIndex + 1));
+        return settings.value.blocks;
+      })();
+      return {
+        go() {
+          settings.value = { ...settings.value, blocks: after };
+        },
+        back() {
+          settings.value = { ...settings.value, blocks: before };
+        },
+      };
+    },
+  });
+
+  register({
+    name: "placeBottom",
+    wantedInQueue: true,
+    execute() {
+      return {
+        go() {},
+        back() {},
       };
     },
   });

@@ -1,16 +1,24 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3469308 */
-  src: url("iconfont.woff2?t=1655536663927") format("woff2"),
-    url("iconfont.woff?t=1655536663927") format("woff"),
-    url("iconfont.ttf?t=1655536663927") format("truetype");
+  src: url("iconfont.woff2?t=1655560200677") format("woff2"),
+    url("iconfont.woff?t=1655560200677") format("woff"),
+    url("iconfont.ttf?t=1655560200677") format("truetype");
 }
 
 [class^="icon"] {
   font-family: "iconfont" !important;
-  font-size: 26px;
+  font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-control-top:before {
+  content: "\e647";
+}
+
+.icon-control-bottom:before {
+  content: "\e648";
 }
 
 .icon-delete:before {
