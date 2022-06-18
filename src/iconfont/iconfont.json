@@ -6,32 +6,46 @@
   "description": "低代码平台 iconfont 项目图标",
   "glyphs": [
     {
-      "icon_id": "2892818",
-      "name": "删除",
+      "icon_id": "248953",
+      "name": "delete",
       "font_class": "delete",
-      "unicode": "e645",
-      "unicode_decimal": 58949
+      "unicode": "e67e",
+      "unicode_decimal": 59006
     },
     {
-      "icon_id": "4686546",
-      "name": "保存",
-      "font_class": "save",
-      "unicode": "ec09",
-      "unicode_decimal": 60425
-    },
-    {
-      "icon_id": "23981160",
-      "name": "重做",
+      "icon_id": "924506",
+      "name": "redo",
       "font_class": "redo",
-      "unicode": "e65d",
-      "unicode_decimal": 58973
+      "unicode": "e937",
+      "unicode_decimal": 59703
     },
     {
-      "icon_id": "17833630",
-      "name": "撤销",
-      "font_class": "ctrlZ",
-      "unicode": "e617",
-      "unicode_decimal": 58903
+      "icon_id": "924564",
+      "name": "undo",
+      "font_class": "undo",
+      "unicode": "e966",
+      "unicode_decimal": 59750
+    },
+    {
+      "icon_id": "15838524",
+      "name": "save",
+      "font_class": "save",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "9929033",
+      "name": "export",
+      "font_class": "export",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "15617439",
+      "name": "import",
+      "font_class": "import",
+      "unicode": "e8da",
+      "unicode_decimal": 59610
     }
   ]
 }

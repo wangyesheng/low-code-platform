@@ -1,4 +1,5 @@
 import { reactive } from "vue";
+import { events } from "./event";
 
 export function useBlockDragger(focusState, lastSelectedBlock, settings) {
   let dragState = {
@@ -17,6 +18,7 @@ export function useBlockDragger(focusState, lastSelectedBlock, settings) {
 
     if (!dragState.isDragging) {
       dragState.isDragging = true;
+      events.emit("start"); // 触发事件就会记住拖拽前的位置
     }
 
     // 计算当前拖拽元素最新的 left 和 top 值，去 lineMap 找，找到就显示线
@@ -65,6 +67,9 @@ export function useBlockDragger(focusState, lastSelectedBlock, settings) {
     document.removeEventListener("mouseup", mouseup);
     markLine.x = null;
     markLine.y = null;
+    if (dragState.isDragging) {
+      events.emit("end");
+    }
   };
 
   const blockDrag = (e) => {

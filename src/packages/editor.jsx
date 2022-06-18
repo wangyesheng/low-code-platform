@@ -67,7 +67,7 @@ export default defineComponent({
       {
         label: "撤销",
         value: "ctrlZ",
-        icon: "icon-ctrlZ",
+        icon: "icon-undo",
         handler: () => {
           state.commandsMap.ctrlZ();
         },
@@ -80,18 +80,30 @@ export default defineComponent({
           state.commandsMap.redo();
         },
       },
-      // {
-      //   label: "删除",
-      //   value: "delete",
-      //   icon: "icon-delete",
-      //   handler: () => console.log("delete"),
-      // },
-      // {
-      //   label: "保存",
-      //   value: "save",
-      //   icon: "icon-save",
-      //   handler: () => console.log("save"),
-      // },
+      {
+        label: "删除",
+        value: "delete",
+        icon: "icon-delete",
+        handler: () => console.log("delete"),
+      },
+      {
+        label: "导入",
+        value: "import",
+        icon: "icon-import",
+        handler: () => console.log("import"),
+      },
+      {
+        label: "导出",
+        value: "export",
+        icon: "icon-export",
+        handler: () => console.log("export"),
+      },
+      {
+        label: "保存",
+        value: "save",
+        icon: "icon-save",
+        handler: () => console.log("save"),
+      },
     ];
 
     return () => (

@@ -60,11 +60,8 @@ export function useCommands(settings) {
       return {
         go() {
           if (state.current == -1) return;
-          const layer = state.historyQueue[state.current];
-          if (layer) {
-            layer.back && layer.back();
-            state.current--;
-          }
+          const layer = state.historyQueue[state.current--];
+          layer && layer.back && layer.back();
         },
       };
     },
@@ -113,7 +110,36 @@ export function useCommands(settings) {
     },
   });
 
+  const keyboardEvent = (() => {
+    const keyCodeMap = {
+      90: "z",
+      89: "y",
+    };
+    const onKeydown = (e) => {
+      const { ctrlKey, keyCode } = e;
+      if (ctrlKey && keyCodeMap[keyCode]) {
+        const keyboard = "ctrl" + "+" + keyCodeMap[keyCode];
+        state.commands.forEach(({ keyboard: _keyboard, name }) => {
+          if (!keyboard) return;
+          if (keyboard == _keyboard) {
+            state.commandsMap[name]();
+          }
+        });
+      }
+    };
+    const init = () => {
+      // 初始化监听键盘按下事件
+      window.addEventListener("keydown", onKeydown);
+      return () => {
+        // 销毁事件
+        window.removeEventListener("keydown", onKeydown);
+      };
+    };
+    return init;
+  })();
+
   (() => {
+    state.destories.push(keyboardEvent());
     state.commands.forEach(
       (command) => command.init && state.destories.push(command.init())
     );

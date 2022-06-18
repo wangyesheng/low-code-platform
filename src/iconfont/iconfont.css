@@ -1,31 +1,38 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3469308 */
-  src: url("iconfont.woff2?t=1655361259600") format("woff2"),
-    url("iconfont.woff?t=1655361259600") format("woff"),
-    url("iconfont.ttf?t=1655361259600") format("truetype");
+  src: url("iconfont.woff2?t=1655536663927") format("woff2"),
+    url("iconfont.woff?t=1655536663927") format("woff"),
+    url("iconfont.ttf?t=1655536663927") format("truetype");
 }
 
-/* 匹配以 icon- 开头的所有类名 */
-[class^="icon-"] {
+[class^="icon"] {
   font-family: "iconfont" !important;
-  font-size: 16px;
+  font-size: 26px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-delete:before {
-  content: "\e645";
-}
-
-.icon-save:before {
-  content: "\ec09";
+  content: "\e67e";
 }
 
 .icon-redo:before {
-  content: "\e65d";
+  content: "\e937";
 }
 
-.icon-ctrlZ:before {
-  content: "\e617";
+.icon-undo:before {
+  content: "\e966";
+}
+
+.icon-save:before {
+  content: "\e67c";
+}
+
+.icon-export:before {
+  content: "\e642";
+}
+
+.icon-import:before {
+  content: "\e8da";
 }
