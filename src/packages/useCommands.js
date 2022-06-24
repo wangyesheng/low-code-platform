@@ -27,8 +27,8 @@ export function useCommands(settings, focusState) {
 
   const register = (command) => {
     state.commands.push(command);
-    state.commandsMap[command.name] = (args) => {
-      const { go, back } = command.execute(args);
+    state.commandsMap[command.name] = (...args) => {
+      const { go, back } = command.execute(...args);
       go();
       if (!command.wantedInQueue) return;
       if (state.historyQueue.length > 0) {
@@ -85,6 +85,30 @@ export function useCommands(settings, focusState) {
   });
 
   register({
+    name: "updateBlock", // 更新整个容器内部的 blocks
+    wantedInQueue: true,
+    execute(newValue, oldValue) {
+      let before = deepcopy(settings.value.blocks);
+      let after = (() => {
+        const blocks = [...settings.value.blocks];
+        const index = blocks.indexOf(oldValue);
+        if (index > -1) {
+          blocks.splice(index, 1, newValue);
+        }
+        return blocks;
+      })();
+      return {
+        go() {
+          settings.value = { ...settings.value, blocks: after };
+        },
+        back() {
+          settings.value = { ...settings.value, blocks: before };
+        },
+      };
+    },
+  });
+
+  register({
     name: "placeTop",
     wantedInQueue: true,
     execute() {
@@ -113,9 +137,50 @@ export function useCommands(settings, focusState) {
     name: "placeBottom",
     wantedInQueue: true,
     execute() {
+      let before = deepcopy(settings.value.blocks);
+      const after = (() => {
+        const { focus, unfocus } = focusState.value;
+        // Infinity => 无穷大
+        let minZIndex =
+          unfocus.reduce((prev, current) => {
+            return Math.min(prev, current.zIndex);
+          }, Infinity) - 1;
+
+        // 兼容最小值如果是负数的情况将会定位到容器底部
+        if (minZIndex < 0) {
+          const abs = Math.abs(minZIndex);
+          minZIndex = 0;
+          unfocus.forEach((x) => (x.zIndex += abs));
+        }
+
+        focus.forEach((x) => (x.zIndex = minZIndex));
+
+        return settings.value.blocks;
+      })();
       return {
-        go() {},
-        back() {},
+        go() {
+          settings.value = { ...settings.value, blocks: after };
+        },
+        back() {
+          settings.value = { ...settings.value, blocks: before };
+        },
+      };
+    },
+  });
+
+  register({
+    name: "delete",
+    wantedInQueue: true,
+    execute() {
+      const before = deepcopy(settings.value.blocks);
+      const after = focusState.value.unfocus;
+      return {
+        go() {
+          settings.value = { ...settings.value, blocks: after };
+        },
+        back() {
+          settings.value = { ...settings.value, blocks: before };
+        },
       };
     },
   });

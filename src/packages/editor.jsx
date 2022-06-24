@@ -7,6 +7,10 @@ import { useFocus } from "./useFocus";
 import { useBlockDragger } from "./useBlockDragger";
 import { useCommands } from "./useCommands";
 import { useButtons } from "./useButtons";
+
+import { $dropdown, DropdownItem } from "../components/Dropdown";
+import { $dialog } from "../components/Dialog";
+
 import "./editor.scss";
 
 export default defineComponent({
@@ -20,6 +24,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   components: {
     EditorBlock,
+    DropdownItem,
   },
   setup(props, ctx) {
     const settings = computed({
@@ -67,6 +72,62 @@ export default defineComponent({
 
     const { buttons } = useButtons(state, settings);
 
+    const onBlockContextMenu = (e, block) => {
+      e.preventDefault();
+      $dropdown({
+        el: e.target, // 以哪个元素为准产生一个dropdown
+        content: () => (
+          <>
+            <DropdownItem
+              label="删除"
+              icon="icon-delete"
+              onClick={() => {
+                state.commandsMap.delete();
+              }}
+            />
+            <DropdownItem
+              label="置顶"
+              icon="icon-control-top"
+              onClick={() => {
+                state.commandsMap.placeTop();
+              }}
+            />
+            <DropdownItem
+              label="置底"
+              icon="icon-control-bottom"
+              onClick={() => {
+                state.commandsMap.placeBottom();
+              }}
+            />
+            <DropdownItem
+              label="查看"
+              icon="icon-preview"
+              onClick={() => {
+                $dialog({
+                  title: "查看节点数据",
+                  content: JSON.stringify(block),
+                });
+              }}
+            />
+            <DropdownItem
+              label="导入"
+              icon="icon-import"
+              onClick={() => {
+                $dialog({
+                  title: "导入",
+                  content: "",
+                  footer: true,
+                  onConfirm(value) {
+                    state.commandsMap.updateBlock(JSON.parse(value), block);
+                  },
+                });
+              }}
+            />
+          </>
+        ),
+      });
+    };
+
     return () => (
       <div class="editor-wrap">
         <div class="editor-left">
@@ -113,6 +174,7 @@ export default defineComponent({
                   block={block}
                   class={block.focus ? "editor-block-focus" : ""}
                   onMousedown={(e) => blockMousedown(e, block, i)}
+                  onContextmenu={(e) => onBlockContextMenu(e, block)}
                 />
               ))}
 

@@ -6,6 +6,13 @@
   "description": "低代码平台 iconfont 项目图标",
   "glyphs": [
     {
+      "icon_id": "911065",
+      "name": "preview",
+      "font_class": "preview",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
       "icon_id": "3255777",
       "name": "置顶",
       "font_class": "control-top",

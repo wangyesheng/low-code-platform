@@ -30,13 +30,15 @@ export function useButtons({ commandsMap }, settings) {
       label: "置底",
       key: "placeBottom",
       icon: "icon-control-bottom",
-      handler: () => {},
+      handler: () => {
+        commandsMap.placeBottom();
+      },
     },
     {
       label: "删除",
       key: "delete",
       icon: "icon-delete",
-      handler: () => console.log("delete"),
+      handler: () => commandsMap.delete(),
     },
     {
       label: "导入",
@@ -63,6 +65,12 @@ export function useButtons({ commandsMap }, settings) {
           content: JSON.stringify(settings.value),
         });
       },
+    },
+    {
+      label: "预览",
+      key: "preview",
+      icon: "icon-preview",
+      handler: () => console.log("preview"),
     },
     {
       label: "保存",

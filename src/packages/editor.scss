@@ -134,3 +134,28 @@
   right: 0;
   border-top: 1px dashed #ff0000;
 }
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background: rgb(255, 255, 255);
+  box-shadow: 2px 2px #ccc;
+  border: 1px solid #ccc;
+
+  &_active {
+    display: block;
+  }
+
+  &-item {
+    line-height: 30px;
+    width: 100px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+    user-select: none;
+    i {
+      margin-right: 5px;
+    }
+  }
+}
