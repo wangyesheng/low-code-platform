@@ -7,6 +7,10 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    formData: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   setup(props) {
     const blockStyles = computed(() => ({
@@ -30,7 +34,18 @@ export default defineComponent({
     });
     return () => {
       const component = config.componentMap[props.block.key];
-      const RenderComp = component.render();
+      const RenderComp = component.render({
+        props: props.block.props,
+        model: Object.keys(component.model || {}).reduce((memo, modelName) => {
+          const propName = props.block.model[modelName];
+          memo[modelName] = {
+            modelValue: props.formData[propName],
+            "onUpdate:modelValue": (value) =>
+              (props.formData[propName] = value),
+          };
+          return memo;
+        }, {}),
+      });
       return (
         <div class="editor-block-wrap" style={blockStyles.value} ref={blockRef}>
           <RenderComp />

@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrap">
     <!-- v-model => :modelValue + @update:modelValue -->
-    <editor v-model="settings" />
+    <editor v-model="settings" :formData="formData" />
   </div>
 </template>
 
@@ -13,6 +13,11 @@ import data from "./data.json";
 import { registerConfig as config } from "./utils/editor-config";
 
 provide("editorConfig", config);
+
+const formData = ref({
+  username: "wangyesheng",
+  password: "123456",
+});
 
 const settings = ref(data);
 </script>

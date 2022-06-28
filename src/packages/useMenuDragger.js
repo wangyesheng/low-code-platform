@@ -24,6 +24,8 @@ export function useMenuDragger(settings, domRef) {
           zIndex: 1,
           key: currentComponent.key,
           alignCenter: true,
+          props: {},
+          model: {},
         },
       ],
     };

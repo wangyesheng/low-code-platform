@@ -2,6 +2,7 @@ import deepcopy from "deepcopy";
 import { computed, defineComponent, inject, ref } from "vue";
 
 import EditorBlock from "./editor-block";
+import EditorOperator from "./editor-operator";
 import { useMenuDragger } from "./useMenuDragger";
 import { useFocus } from "./useFocus";
 import { useBlockDragger } from "./useBlockDragger";
@@ -20,10 +21,15 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    formData: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   emits: ["update:modelValue"],
   components: {
     EditorBlock,
+    EditorOperator,
     DropdownItem,
   },
   setup(props, ctx) {
@@ -157,7 +163,14 @@ export default defineComponent({
             );
           })}
         </div>
-        <div class="editor-right">物料属性控制栏</div>
+        <div class="editor-right">
+          <editor-operator
+            block={lastSelectedBlock.value}
+            settings={settings.value}
+            updateContainer={state.commandsMap.updateContainer}
+            updateBlock={state.commandsMap.updateBlock}
+          />
+        </div>
         <div class="editor-container">
           {/* 负责产生滚动条 */}
           <div class="editor-container-canvas">
@@ -172,6 +185,7 @@ export default defineComponent({
                 <editor-block
                   key={block.key}
                   block={block}
+                  formData={props.formData}
                   class={block.focus ? "editor-block-focus" : ""}
                   onMousedown={(e) => blockMousedown(e, block, i)}
                   onContextmenu={(e) => onBlockContextMenu(e, block)}
