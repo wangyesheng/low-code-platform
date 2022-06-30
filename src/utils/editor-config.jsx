@@ -1,6 +1,7 @@
 // 列表区可以显示所有物料
 // key 对应组件的映射关系
-import { ElButton, ElInput } from "element-plus";
+import { ElButton, ElInput, ElSelect } from "element-plus";
+import Range from "../components/Range";
 
 function createEditorConfig() {
   const components = [];
@@ -24,6 +25,11 @@ const createSelectProp = (label, options) => ({
   type: "select",
   label,
   options,
+});
+const createTableProp = (label, tableOptions) => ({
+  type: "table",
+  label,
+  tableOptions,
 });
 
 registerConfig.register({
@@ -49,6 +55,10 @@ registerConfig.register({
 
 registerConfig.register({
   label: "按钮",
+  resize: {
+    width: true,
+    height: true,
+  },
   preview: () => <ElButton>预览按钮</ElButton>,
   render: ({ props }) => (
     <ElButton type={props.type} size={props.size}>
@@ -74,6 +84,9 @@ registerConfig.register({
 
 registerConfig.register({
   label: "输入框",
+  resize: {
+    width: true,
+  },
   preview: () => <ElInput placeholder="预览输入框" />,
   render: ({ model }) => (
     <ElInput placeholder="渲染输入框" {...model.default} />
@@ -81,5 +94,41 @@ registerConfig.register({
   key: "input",
   model: {
     default: "绑定字段",
+  },
+});
+
+registerConfig.register({
+  label: "范围选择器",
+  preview: () => <Range />,
+  render: ({ model }) => (
+    <Range
+      {...{
+        start: model.start.modelValue,
+        end: model.end.modelValue,
+        "onUpdate:start": model.start["onUpdate:modelValue"],
+        "onUpdate:end": model.end["onUpdate:modelValue"],
+      }}
+    />
+  ),
+  key: "range",
+  model: {
+    start: "开始字段",
+    end: "结束字段",
+  },
+});
+
+registerConfig.register({
+  label: "下拉框",
+  preview: () => <ElSelect modelValue="" />,
+  render: ({ props, model }) => <ElSelect modelValue="" />,
+  key: "select",
+  props: {
+    options: createTableProp("下拉选项", {
+      options: [
+        { lable: "显示值", field: "lebel" },
+        { lable: "绑定值", field: "value" },
+      ],
+      key: "label", // 显示给用户的值是 `label`
+    }),
   },
 });

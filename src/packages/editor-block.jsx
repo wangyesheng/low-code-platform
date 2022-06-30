@@ -1,7 +1,11 @@
 import { computed, defineComponent, inject, onMounted, ref } from "vue";
+import BlockResize from "./block-resize";
 
 export default defineComponent({
   name: "editor-block",
+  components: {
+    BlockResize,
+  },
   props: {
     block: {
       type: Object,
@@ -46,9 +50,13 @@ export default defineComponent({
           return memo;
         }, {}),
       });
+      const { width, height } = component.resize || {};
       return (
         <div class="editor-block-wrap" style={blockStyles.value} ref={blockRef}>
           <RenderComp />
+          {props.block.focus && (width || height) && (
+            <BlockResize block={props.block} component={component} />
+          )}
         </div>
       );
     };

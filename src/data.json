@@ -22,8 +22,8 @@
       "key": "button",
       "props": {
         "text": "低代码平台按钮",
-        "type": "primary",
-        "size": "small"
+        "type": "",
+        "size": "default"
       }
     },
     {

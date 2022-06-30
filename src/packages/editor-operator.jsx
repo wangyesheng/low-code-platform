@@ -11,8 +11,13 @@ import {
 } from "element-plus";
 import { defineComponent, inject, reactive, watch } from "vue";
 
+import EditorTable from "./editor-table";
+
 export default defineComponent({
   name: "editor-operator",
+  components: {
+    EditorTable,
+  },
   props: {
     block: {
       // 用户最后选中的元素
@@ -65,6 +70,7 @@ export default defineComponent({
           </>
         );
       } else {
+        // editor-config.jsx 中注册的组件
         const component = config.componentMap[props.block.key];
         if (component && component.props) {
           content = Object.entries(component.props).map(
@@ -85,11 +91,18 @@ export default defineComponent({
                         ))}
                       </ElSelect>
                     ),
+                    table: () => (
+                      <EditorTable
+                        propConfig={propConfig}
+                        v-model={state.source.props[propName]}
+                      />
+                    ),
                   }[propConfig.type]()}
                 </ElFormItem>
               );
             }
           );
+          console.log(content);
         }
 
         if (component && component.model) {

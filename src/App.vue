@@ -17,6 +17,8 @@ provide("editorConfig", config);
 const formData = ref({
   username: "wangyesheng",
   password: "123456",
+  start: 0,
+  end: 100,
 });
 
 const settings = ref(data);
