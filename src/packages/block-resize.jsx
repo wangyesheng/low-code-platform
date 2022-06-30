@@ -12,6 +12,50 @@ export default defineComponent({
   setup(props) {
     const { width, height } = props.component.resize || {};
     let raw = {};
+    const onmousemove = (e) => {
+      let { clientX, clientY } = e;
+      let {
+        startClientX,
+        startClientY,
+        startWidth,
+        startHeight,
+        startLeft,
+        startTop,
+        direction,
+      } = raw;
+      // 当拖动水平方向（向下向上拖）的中间点时，需要保证 clientX 值为拖动前该点距屏幕的 x 值
+      if (direction.h == "center") {
+        clientX = startClientX;
+      }
+
+      // 当拖动垂直方向（向左向右拖）的中间点时，需要保证 clientY 值为拖动前该点距屏幕的 y 值
+      if (direction.v == "center") {
+        clientY = startClientY;
+      }
+      let durX = clientX - startClientX;
+      let durY = clientY - startClientY;
+
+      // 针对反向拖拽的点，需要取反，拿到正确组件的 top 和 left 值
+      if (direction.h == "start") {
+        durX = -durX;
+        props.block.left = startLeft - durX;
+      }
+
+      if (direction.v == "start") {
+        durY = -durY;
+        props.block.top = startTop - durY;
+      }
+
+      let w = startWidth + durX;
+      let h = startHeight + durY;
+      props.block.width = w;
+      props.block.height = h;
+      props.block.canResize = true;
+    };
+    const onmouseup = (e) => {
+      document.body.removeEventListener("mousemove", onmousemove);
+      document.body.removeEventListener("mouseup", onmouseup);
+    };
     const onMouseDown = (e, direction) => {
       e.stopPropagation();
       raw = {
@@ -23,11 +67,10 @@ export default defineComponent({
         startTop: props.block.top,
         direction,
       };
-      const onmousemove = () => {};
-      const onmouseup = () => {};
       document.body.addEventListener("mousemove", onmousemove);
       document.body.addEventListener("mouseup", onmouseup);
     };
+
     return () => {
       return (
         <>

@@ -183,6 +183,7 @@
   height: 8px;
   background: #1890ff;
   z-index: 1000;
+  user-select: none;
 }
 
 .block-resize-top {
@@ -223,4 +224,9 @@
 .block-resize-bottom-right {
   bottom: -4px;
   right: -4px;
+}
+
+.el-button,
+.el-input {
+  transition: none;
 }

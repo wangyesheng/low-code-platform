@@ -60,8 +60,12 @@ registerConfig.register({
     height: true,
   },
   preview: () => <ElButton>预览按钮</ElButton>,
-  render: ({ props }) => (
-    <ElButton type={props.type} size={props.size}>
+  render: ({ props, size }) => (
+    <ElButton
+      style={{ height: size.height + "px", width: size.width + "px" }}
+      type={props.type}
+      size={props.size}
+    >
       {props.text || "渲染按钮"}
     </ElButton>
   ),
@@ -88,8 +92,12 @@ registerConfig.register({
     width: true,
   },
   preview: () => <ElInput placeholder="预览输入框" />,
-  render: ({ model }) => (
-    <ElInput placeholder="渲染输入框" {...model.default} />
+  render: ({ model, size }) => (
+    <ElInput
+      placeholder="渲染输入框"
+      {...model.default}
+      style={{ width: size.width + "px" }}
+    />
   ),
   key: "input",
   model: {

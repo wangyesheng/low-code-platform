@@ -39,6 +39,9 @@ export default defineComponent({
     return () => {
       const component = config.componentMap[props.block.key];
       const RenderComp = component.render({
+        size: props.block.canResize
+          ? { width: props.block.width, height: props.block.height }
+          : {},
         props: props.block.props,
         model: Object.keys(component.model || {}).reduce((memo, modelName) => {
           const propName = props.block.model[modelName];

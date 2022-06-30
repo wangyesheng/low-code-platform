@@ -102,7 +102,6 @@ export default defineComponent({
               );
             }
           );
-          console.log(content);
         }
 
         if (component && component.model) {
