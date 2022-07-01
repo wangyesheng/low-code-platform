@@ -73,8 +73,8 @@ export default defineComponent({
         // editor-config.jsx 中注册的组件
         const component = config.componentMap[props.block.key];
         if (component && component.props) {
-          content = Object.entries(component.props).map(
-            ([propName, propConfig]) => {
+          content.push(
+            Object.entries(component.props).map(([propName, propConfig]) => {
               return (
                 <ElFormItem label={propConfig.label}>
                   {{
@@ -92,6 +92,14 @@ export default defineComponent({
                       </ElSelect>
                     ),
                     table: () => (
+                      // propConfig => {
+                      // type: 'table',
+                      // label: '下拉选项',
+                      // table: [
+                      //    { label: "显示值", field: "label" },
+                      //    { label: "绑定值", field: "value" },
+                      //  ]
+                      // }
                       <EditorTable
                         propConfig={propConfig}
                         v-model={state.source.props[propName]}
@@ -100,19 +108,19 @@ export default defineComponent({
                   }[propConfig.type]()}
                 </ElFormItem>
               );
-            }
+            })
           );
         }
 
         if (component && component.model) {
-          content = Object.entries(component.model).map(
-            ([modelName, label]) => {
+          content.push(
+            Object.entries(component.model).map(([modelName, label]) => {
               return (
                 <ElFormItem label={label}>
                   <ElInput v-model={state.source.model[modelName]} />
                 </ElFormItem>
               );
-            }
+            })
           );
         }
       }
@@ -120,6 +128,9 @@ export default defineComponent({
       return (
         <ElForm labelPosition="top" style="padding:20px">
           {content}
+          <div style={{ wordBreak: "break-all" }}>
+            {JSON.stringify(state.source)}
+          </div>
           <ElFormItem>
             <ElButton type="primary" onClick={() => apply()}>
               应用

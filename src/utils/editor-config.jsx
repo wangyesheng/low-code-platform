@@ -1,6 +1,6 @@
 // 列表区可以显示所有物料
 // key 对应组件的映射关系
-import { ElButton, ElInput, ElSelect } from "element-plus";
+import { ElButton, ElInput, ElOption, ElSelect } from "element-plus";
 import Range from "../components/Range";
 
 function createEditorConfig() {
@@ -26,10 +26,10 @@ const createSelectProp = (label, options) => ({
   label,
   options,
 });
-const createTableProp = (label, tableOptions) => ({
+const createTableProp = (label, table) => ({
   type: "table",
   label,
-  tableOptions,
+  table,
 });
 
 registerConfig.register({
@@ -128,15 +128,26 @@ registerConfig.register({
 registerConfig.register({
   label: "下拉框",
   preview: () => <ElSelect modelValue="" />,
-  render: ({ props, model }) => <ElSelect modelValue="" />,
+  render: ({ props, model }) => {
+    return (
+      <ElSelect {...model.default}>
+        {(props.options || []).map((el, i) => (
+          <ElOption label={el.label} value={el.value} key={i} />
+        ))}
+      </ElSelect>
+    );
+  },
   key: "select",
   props: {
     options: createTableProp("下拉选项", {
       options: [
-        { lable: "显示值", field: "lebel" },
-        { lable: "绑定值", field: "value" },
+        { label: "显示值", field: "label" },
+        { label: "绑定值", field: "value" },
       ],
       key: "label", // 显示给用户的值是 `label`
     }),
+  },
+  model: {
+    default: "绑定字段",
   },
 });

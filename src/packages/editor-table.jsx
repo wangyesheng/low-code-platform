@@ -1,6 +1,7 @@
 import deepcopy from "deepcopy";
-import { ElButton } from "element-plus";
+import { ElButton, ElTag } from "element-plus";
 import { defineComponent, computed } from "vue";
+import { $tableDialog } from "../components/TableDialog";
 
 export default defineComponent({
   name: "EditorTable",
@@ -23,20 +24,29 @@ export default defineComponent({
       },
     });
     const onShowTableDialog = () => {
-      //   $tableDialog({
-      //     config: props.propConfig,
-      //     data: state.value,
-      //     onConfirm(value) {
-      //       state.value = value;
-      //     },
-      //   });
+      $tableDialog({
+        title: "添加数据源",
+        config: props.propConfig,
+        // state.value => block.props
+        data: state.value,
+        onConfirm(value) {
+          state.value = value;
+        },
+      });
     };
     return () => {
       return (
         <div>
-          {!state.value || state.value.length == 0 ? (
-            <ElButton onClick={onShowTableDialog}>添加</ElButton>
-          ) : null}
+          {!state.value ||
+            (state.value.length == 0 && (
+              <ElButton onClick={onShowTableDialog}>添加</ElButton>
+            ))}
+
+          {(state.value || []).map((el) => (
+            <ElTag onClick={onShowTableDialog}>
+              {el[props.propConfig.table.key]}
+            </ElTag>
+          ))}
         </div>
       );
     };
