@@ -6,11 +6,20 @@
 </template>
 
 <script setup>
+import { genHeatmap } from "@/utils/webgl";
 import { provide, ref } from "vue";
 
 import editor from "./packages/editor";
 import data from "./data.json";
 import { registerConfig as config } from "./utils/editor-config";
+import webglData from "./webgldata.json";
+
+(async () => {
+  // console.log(webglData);
+  // const { data, max, min, color, xy } = webglData;
+  // const response = await genHeatmap(data, max, min, color, xy);
+  // console.log("============", response);
+})();
 
 provide("editorConfig", config);
 

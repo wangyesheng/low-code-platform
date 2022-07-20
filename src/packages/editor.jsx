@@ -135,8 +135,8 @@ export default defineComponent({
     };
 
     return () => (
-      <div class="editor-wrap">
-        <div class="editor-left">
+      <div class="editor-wrap" id="editorWrap">
+        <div class="editor-left" id="editorLeft">
           {config.components.map((comp) => (
             <div
               draggable
@@ -149,7 +149,7 @@ export default defineComponent({
             </div>
           ))}
         </div>
-        <div class="editor-top">
+        <div class="editor-top" id="editorTop">
           {buttons.map((btn) => {
             return (
               <div

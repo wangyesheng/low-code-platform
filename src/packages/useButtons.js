@@ -1,3 +1,4 @@
+import html2canvas from "html2canvas";
 import { $dialog } from "../components/Dialog";
 
 export function useButtons({ commandsMap }, settings) {
@@ -70,7 +71,36 @@ export function useButtons({ commandsMap }, settings) {
       label: "预览",
       key: "preview",
       icon: "icon-preview",
-      handler: () => console.log("preview"),
+      handler: () => {
+        html2canvas(document.querySelector("#editorWrap"), {
+          backgroundColor: "#112867",
+          ignoreElements: function (param) {
+            var flag = false;
+            if (param.id === "editorTop" || param.id == "editorLeft") {
+              flag = true;
+            }
+            return flag;
+          },
+        })
+          .then((canvas) => {
+            return {
+              canvas,
+            };
+          })
+          .then(({ canvas }) => {
+            //下载动作
+            var el = document.createElement("a");
+            canvas.toBlob((blob) => {
+              el.href = URL.createObjectURL(blob);
+              el.download = "demo"; //设置下载文件名称
+              document.body.appendChild(el);
+              var evt = document.createEvent("MouseEvents");
+              evt.initEvent("click", false, false);
+              el.dispatchEvent(evt);
+              document.body.removeChild(el);
+            });
+          });
+      },
     },
     {
       label: "保存",
